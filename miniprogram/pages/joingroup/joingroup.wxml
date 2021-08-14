@@ -1,0 +1,10 @@
+<!--pages/joingroup/joingroup.wxml-->
+<view class = "top">
+<image src = "/common/images/MyWechat.png" class ="image"></image>
+</view>
+
+<view class ="desc">
+
+<text class = "text">加我微信</text>
+<text class = "text">拉你进群</text>
+</view>

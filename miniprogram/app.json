@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/index/index",
+    "pages/mine/mine",
+    "pages/list/list",
+    "pages/aboutme/aboutme",
+    "pages/joingroup/joingroup"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTextStyle": "black"
+  },  
+  "tabBar": {
+    "color": "black",
+    "selectedColor": "#546E7A",
+    "borderStyle": "white" ,
+    
+    "list": [{
+      "selectedIconPath": "/common/images/book_s.png",
+      "iconPath": "/common/images/book.png",
+      "pagePath": "pages/home/home",
+      "text": "题 库"
+    },{
+      "selectedIconPath": "/common/images/me_s.png",
+      "iconPath": "/common/images/me.png",
+      "pagePath": "pages/mine/mine",
+      "text": "我 的"
+    }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "debug": true
+}

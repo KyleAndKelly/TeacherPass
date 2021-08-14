@@ -1,0 +1,61 @@
+<!--index.wxml-->
+<view class="container">
+  <view class ="top">
+
+
+
+  <view class="question">
+  <text> 第{{questionIndex +1 }}题 : {{title}}</text>
+  </view>
+
+
+
+  <view class = "topMenu">  
+     <view>
+    <image class ="topMenuButton" src="{{collectImage}}" bindtap="collect" ></image>
+     </view>
+    
+     <view>
+    <image class ="topMenuButton" src="{{listImage}}" bindtap="showList" ></image>
+     </view>
+</view>
+ 
+</view>
+
+
+
+
+  
+
+  <scroll-view  class="answer" scroll-y= "true"   style = "visibility:{{isShowAnswer}}" > 
+  <text user-select = "true" >{{answer}}</text>
+  </scroll-view>
+
+  <view class="timeCount" style = "visibility:{{isShowCounting}} ;text-align : center">   
+    <text>答题倒计时:{{time}} 秒</text>
+  </view>
+
+   <view classs="bottomMenu">
+  <button class="btn" bindtap="setTimeCount"> 
+  开始作答
+  </button>
+  <button class="btn" bindtap="showAnswer"> 
+  看看答案
+ </button>
+  <button class="btn" bindtap="prevQuestion"> 
+  上一题
+ </button>
+ <button class="btn" bindtap="nextQuestion"> 
+  下一题
+ </button>
+
+
+
+</view>
+
+
+
+</view>
+ 
+
+ 

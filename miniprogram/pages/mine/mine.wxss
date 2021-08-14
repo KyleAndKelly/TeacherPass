@@ -1,0 +1,35 @@
+
+/* pages/mine/mine.wxss */
+
+.userInfo{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin:80rpx
+}
+
+
+.profile{
+  
+  width:180rpx;
+  height:180rpx;
+  margin:30rpx;
+ 
+}
+
+.nickName{
+  display:flex;
+  text-align: center;
+
+}
+
+.menu{
+  display: flex;
+  flex-direction: column;
+}
+
+.button{
+  margin:18rpx;
+  border:solid black;
+}

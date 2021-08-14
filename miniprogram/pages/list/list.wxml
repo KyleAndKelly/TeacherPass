@@ -1,0 +1,9 @@
+<!--pages/list/list.wxml-->
+
+<view class="title">
+  <text class="text">题目列表</text>
+</view>
+
+<view class ="questionList" wx:for="{{QuestionArrayForLoop }}" wx:for-index="questionIndex">
+  <button class ="questionButton" data-index ="{{questionIndex}}" bindtap="chooseQuestion">题目 {{questionIndex+1}}</button>
+</view>

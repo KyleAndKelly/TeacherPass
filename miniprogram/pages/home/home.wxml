@@ -1,0 +1,10 @@
+<!--pages/home/home.wxml-->
+<view class="home">
+
+
+  <blcok class="button" wx:for="{{subject}}"> 
+  <button class="subjectButton" bindtap="gotoPage"  data-index ="{{index}}"> {{item}}</button>
+ </blcok>
+
+  
+</view>

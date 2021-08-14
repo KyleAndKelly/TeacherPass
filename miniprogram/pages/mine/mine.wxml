@@ -1,0 +1,15 @@
+<!--pages/mine/mine.wxml-->
+
+<view class = "userInfo">
+  <image  class ="profile " src="{{profileImageUrl}}" bindtap="login">个人头像</image>
+  <text class ="nickName"> {{nickName}}</text>
+</view>
+<view class ="menu">
+
+  <button class ="button" bindtap="collection"> 我的收藏</button>
+  <button class ="button" bindtap="joinGroup"> 加群交流</button>
+  <button class ="button" bindtap="sharePage"> 分享小程序</button>
+  <button class ="button" bindtap="aboutMe"> 关于开发者</button>
+
+</view>
+  

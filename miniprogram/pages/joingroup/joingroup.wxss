@@ -1,0 +1,31 @@
+/* pages/joingroup/joingroup.wxss */
+.top{
+  display:flex;
+  justify-items: center;
+  align-content: center;
+ 
+  
+  
+}
+.image{
+  height:600rpx;
+  margin:auto;
+}
+
+.desc{
+  display:flex;
+  flex-direction:column;
+  justify-items: center;
+  align-content: center;
+
+  width:300rpx;
+  margin-left:240rpx;
+  border:black solid;
+  border-radius: 15px;
+  
+}
+.text{
+  font-size:60rpx;
+  margin:auto;
+  
+}

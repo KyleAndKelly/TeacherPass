@@ -1,0 +1,78 @@
+/**index.wxss**/
+.top{
+  position: relative;
+
+
+  margin-left:15rpx;
+  margin-right:15rpx;
+ 
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+
+
+}
+
+
+.question{
+
+  margin-left:15rpx;
+  margin-right:15rpx;
+
+  
+  }
+.topMenu{
+  position: relative;
+
+
+  display: flex;
+  margin-left:auto;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content:space-around;
+
+}
+
+
+.topMenuButton{
+
+width :80rpx;
+height:80rpx;
+margin:6rpx;
+border-style:solid;
+border-radius: 5px;
+flex-grow: 1;
+
+
+}
+
+
+.answer{
+  position: relative;
+  top:0px;
+  padding-left: 50rpx;
+  padding-right: 50rpx;
+  padding-top: 50rpx;
+  width : 70%;
+  height : 380rpx; 
+  border-style:solid;
+
+  
+}
+.timeCount{
+  position: relative;
+  top:10px;
+}
+.bottomMenu{
+ 
+}
+   .btn{
+    position: relative;
+    top:20px;
+    font-weight : bold;
+    border-style:solid;
+    font-size: 35rpx;
+    margin:10rpx
+   }
+
+
