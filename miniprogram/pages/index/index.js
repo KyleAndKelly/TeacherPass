@@ -1,7 +1,7 @@
 // index.js
 // 获取应用实例
 
-var app = getApp().globalData
+const appInstance = getApp()
 
 
 Page({
@@ -22,53 +22,20 @@ Page({
 
   onLoad: function(query){
   
-
-    this.setData({
+    let that = this  
+    that.setData({
       subjectIndex : Number(query.subjectId),
       questionIndex :Number(query.questionId),
       
     })
-    console.log("debug: this.data.subjectIndex ", this.data.subjectIndex)
-    console.log("debug: this.data.questionIndex ",this.data.questionIndex)
+    console.log("debug: this.data.subjectIndex ", that.data.subjectIndex)
+    console.log("debug: this.data.questionIndex ",that.data.questionIndex)
+    console.log("debug: appInstance.QuestionDataArray ",appInstance.QuestionDataArray)
     
-    
-
-
-    var db = wx.cloud.database()
-    db.collection("QuestionData").where({
-      subjectId : Number(this.data.subjectIndex),
-    }).get().then(res =>{
-       console.log("debug: res.data ", res.data)
-      this.setData({
-        QuestionDataArray:res.data,
-      })
-
-      console.log("debug: this.data.questionIndex ", this.data.questionIndex)
-      this.setData({
-        title : this.data.QuestionDataArray[this.data.questionIndex].title,
-        answer : this.data.QuestionDataArray[this.data.questionIndex].answer
-      })
-
-      console.log("debug: QuestionDataArray ", this.data.QuestionDataArray)
-      })
-
-
-    // var db = wx.cloud.database()
-    // db.collection("QuestionData").where({
-    //   // subjectId : Number(this.data.subjectIndex),
-    //   // questionId : Number(this.data.questionIndex)
-    //   subjectId : Number(this.data.subjectIndex),
-    //   questionId : Number(this.data.questionIndex),
-    // }).get().then(res =>{
-    //    console.log("debug: res.data ", res.data)
-    //   this.setData({
-    //     title : res.data[0].title,
-    //     answer : res.data[0].answer
-    //   })
-    //   })
-
-
- 
+      that.setData({
+        title :appInstance.QuestionDataArray[query.subjectId][query.questionId].title,
+        answer : appInstance.QuestionDataArray[query.subjectId][query.questionId].answer
+      })          
 
   }, 
 
@@ -121,37 +88,6 @@ Page({
       duration: 2000//持续的时间
  
     })
-    // var url = "../../common/images/"
-    // var status = this.data.collectStatus
-    // if(status == false){
-    //   this.setData({
-    //     collectImage :url+ "collect_s.png",
-    //     collectStatus:true
-    //   })
-
-    //   wx.showToast({
-    //     title: '已收藏',
-    //     icon: 'success',
-    //     duration: 2000//持续的时间
-   
-    //   })
-
-    //   console.log("debug:collectStatus",this.data.collectStatus)
-    // }else{
-    //   this.setData({
-    //     collectImage :url+ "collect.png",
-    //     collectStatus:false
-    //   })
-
-    //   wx.showToast({
-    //     title: '取消收藏',
-    //     icon: 'none',
-    //     duration: 2000//持续的时间
-        
-    //   })
-    //   console.log("debug:collectStatus",this.data.collectStatus)
-    // }
-
 
   },
 
@@ -181,8 +117,8 @@ Page({
       })
       
         this.setData({
-          title : this.data.QuestionDataArray[this.data.questionIndex].title,
-          answer : this.data.QuestionDataArray[this.data.questionIndex].answer
+          title : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
+          answer : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
         })
 
 
@@ -200,7 +136,7 @@ Page({
 
   nextQuestion:function(e){
     
-    if(this.data.questionIndex >= this.data.QuestionDataArray.length - 1 ){
+    if(this.data.questionIndex >= appInstance.QuestionDataArray[this.data.subjectIndex].length - 1 ){
       console.log("进入了 if")
       wx.showToast({
         title: '已经是最后一个题了',
@@ -225,8 +161,8 @@ Page({
       })
 
       this.setData({
-        title : this.data.QuestionDataArray[this.data.questionIndex].title,
-        answer : this.data.QuestionDataArray[this.data.questionIndex].answer
+        title : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
+        answer : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
       })
 
 
@@ -240,7 +176,7 @@ Page({
   showList:function(e){
         //参数就在e里面，设置一个变量来得到参数。
         const subjIndex = this.data.subjectIndex
-        const questionNum = this.data.QuestionDataArray.length
+        const questionNum = appInstance.QuestionDataArray[this.data.subjectIndex].length
         console.log("debug:subjIndex ",subjIndex)
         //执行跳转的js
         wx.navigateTo({

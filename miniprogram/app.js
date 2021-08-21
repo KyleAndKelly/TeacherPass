@@ -32,6 +32,7 @@ App({
 
 
   loginStatus:false,
+  QuestionDataArray:[],
 
 
   

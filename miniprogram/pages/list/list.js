@@ -18,7 +18,9 @@ Page({
       questinonNum : Number(query.questionNum),
       
     })
-
+    
+    console.log("debug:subjIndex " ,this.data.subjIndex,)
+    console.log("debug:questionNum " ,this.data.questionNum,)
     var tmpArray = new Array(this.data.questinonNum).fill('1') 
     console.log("debug：tmpArray",tmpArray)
 
