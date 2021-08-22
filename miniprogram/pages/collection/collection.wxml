@@ -1,0 +1,30 @@
+<!--miniprogram/pages/collection.wxml-->
+<view class='list_box' wx:for='{{folders}}' wx:key='this' wx:for-item='folder' wx:for-index='parentIndex' >
+    <view class='list'>
+        <view class='list_name_box' catchtap='listTap' bindlongtap="longTap" data-parentindex='{{parentIndex}}'>
+            <text class='list_item_name'>{{folder.title}}</text>
+
+            <image src='/common/images/list.png' class='icon_down {{folder.show&&"icon_down_rotate"}}'></image>
+        </view>
+
+        <button wx:if="{{editing}}" class='bt_connect_left' style="width:30%" hover-class="hover-class-1" catchtap="delete" data-parentIndex='{{parentIndex}}' data-folder='{{folder}}'
+             >删除</button>
+       <button wx:if='{{editing}}' class='bt_connect_right' style="width:30%"hover-class="hover-class-1" catchtap="rename" data-parentIndex='{{parentIndex}}' data-folder='{{folder}}'>重命名</button>
+
+        <view class='list_item_box' wx:if='{{folder.show}}'>
+            <view class='list_item' wx:for='{{folder.items}}' wx:for-item="item"
+            wx:for-index='childIndex'
+            wx:key='this' catchtap='listItemTap'
+             data-parentIndex='{{parentIndex}}'>
+                <view class='list_item_name_box'>
+                    <text class='list_item_name'>{{item.itemName}}</text>
+                    <image src='/common/images/collect_s.png' class='icon_down {{folder.show&&"icon_down_rotate"}}' catchtap="cancelCollect"
+                     data-childIndex="{{childIndex}}"
+                     data-questionIndex='{{item.questionIndex}}'
+                     data-subjectIndex='{{item.subjectIndex}}'
+                     data-parentIndex="{{parentIndex}}"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

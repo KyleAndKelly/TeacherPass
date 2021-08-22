@@ -1,5 +1,7 @@
 //app.js
 App({
+
+
   onLaunch: function () {
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -30,7 +32,63 @@ App({
 
   },
 
+  globalData:{
+    folders:[
+      { title:'熟练掌握',
+     
+       items:[{
+         itemName:'模拟-题目5',
+         subjectIndex:0,
+         questionIndex:1
+       }, {
+           itemName: '模拟-题目52',
+           subjectIndex:0,
+           questionIndex:1
+       }, {
+           itemName: '模拟-题目5',
+           subjectIndex:0,
+           questionIndex:1
+       
+       }]
+      }, 
+      {
+        title: '差强人意',
+      
+        items: [{
+          itemName: '模拟-题目5',
+          subjectIndex:0,
+          questionIndex:1
 
+        }, {
+          itemName: '模拟-题目5',
+          subjectIndex:0,
+          questionIndex:1
+        }, {
+          itemName: '模拟-题目5',
+          subjectIndex:0,
+          questionIndex:1
+        }]
+      }, {
+        title: '需要练习',
+      
+        items: [{
+          itemName: '模拟-题目3',
+          subjectIndex:0,
+          questionIndex:1
+     
+        }, {
+          itemName: '模拟-题目5',
+          subjectIndex:0,
+          questionIndex:1
+   
+        }, {
+          itemName: '模拟-题目5',
+          subjectIndex:0,
+          questionIndex:1
+        }]
+      }
+    ]
+  },
   loginStatus:false,
   QuestionDataArray:[],
 

@@ -1,0 +1,86 @@
+/* miniprogram/pages/collection.wxss */
+page{
+  background: #f3f7f7;
+}
+.list_name_box{
+  background: #fff;
+  border-bottom: 1px solid #efefef;
+  display:flex;
+  height: 90rpx;
+  align-items: center;
+  padding: 0 25rpx;
+  text-align: center;
+  font-size: 37rpx;
+}
+
+.bt_connect_left{
+
+  height: 50rpx;
+  color: #0a0a0a;
+  border: 3rpx solid #111118;
+  border-radius: 50rpx;
+  font-size: 30rpx;
+  margin-top: 10rpx;
+  width: 35%;
+  margin-top: 35px;
+  margin-left:10px;
+  display: flex;
+  float:left;
+  justify-content: center;
+  align-items: center;
+}
+.bt_connect_right{
+  height: 50rpx;
+  color: #0a0a0a;
+  border: 3rpx solid #111118;
+  border-radius: 50rpx;
+  font-size: 30rpx;
+  margin-top: 10rpx;
+  width: 35%;
+    display: flex;
+  margin-top: 35px;
+  margin-right:10px;
+  float:right;
+  justify-content: center;
+  align-items: center;
+}
+/* 按钮的点击效果 */
+.hover-class-1 {
+  top: 3rpx;
+  background-color: #e7f5ff;
+}
+.list_item_name{
+  flex: 1;
+}
+.icon_down{
+  width: 35rpx;
+  height:35rpx;
+  transition:transform  0.3s;
+}
+/* .list_item_box{
+  height: 0;
+  transition:height  0.3s;
+  overflow: hidden;
+}
+.list_item_box_show{
+  height: 500rpx;
+} */
+.list_item_name_box{
+  background: #fff;
+  font-size: 30rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 25rpx 0 50rpx;
+}
+.other{
+  display: flex;
+  height: 80rpx;
+  padding: 0 25rpx 0 50rpx;
+  align-items: center;
+  font-size: 30rpx;
+  color: #666;
+}
+.icon_down_rotate{
+  transform:rotate(180deg);
+}

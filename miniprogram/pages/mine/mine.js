@@ -74,12 +74,11 @@ Page({
 
 
   collection:function(){
-    wx.showToast({
-      title: '功能开发中，敬请期待',
-      icon: 'none',
-      duration: 2000//持续的时间
- 
-    })
+  
+      wx.navigateTo({
+        //拼接参数到要跳转的页面"
+          url: `/pages/collection/collection`
+        })
   },
 
   aboutMe:function(){

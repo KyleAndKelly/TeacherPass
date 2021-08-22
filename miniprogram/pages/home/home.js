@@ -9,10 +9,6 @@ Page({
   /**
    * 页面的初始数据s
    */
-
-
-
-
   data: {
     subject: [],
     QuestionData1 : [],
