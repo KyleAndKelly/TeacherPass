@@ -49,9 +49,9 @@ Page({
    let building=this.data.building,buildStatus=this.data.buildStatus
    if(building){
      let title=this.data.newing
-     if(title.length==0||this.repeat(title,list)){
+     if(title.length==0||title.length>8||this.repeat(title,list)){
        wx.showToast({
-         title: '不要输入空白或者重名(＾Ｕ＾)ノ~',
+         title: '不要空白重名或太长哦(＾Ｕ＾)ノ~',
          icon:'none'
        })
      }else{
@@ -94,9 +94,9 @@ Page({
    let title=this.data.reNameNew
    let renaming=this.data.folders[index].renaming 
    if(renaming){
-    if(title.length==0||this.repeat(title,list)){
+    if(title.length==0||title.length>8||this.repeat(title,list)){
       wx.showToast({
-        title: '不要输入空白或者重名(＾Ｕ＾)ノ~',
+        title: '不要空白重名或太长哦(＾Ｕ＾)ノ~',
         icon:'none'
       })
     }else{
