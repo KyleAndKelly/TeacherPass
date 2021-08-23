@@ -35,7 +35,8 @@ App({
   globalData:{
     folders:[
       { title:'熟练掌握',
-     
+        renaming:false,
+        nameStatus:'重命名',
        items:[{
          itemName:'模拟-题目5',
          subjectIndex:0,
@@ -53,7 +54,8 @@ App({
       }, 
       {
         title: '差强人意',
-      
+        renaming:false,
+        nameStatus:'重命名',
         items: [{
           itemName: '模拟-题目5',
           subjectIndex:0,
@@ -70,7 +72,8 @@ App({
         }]
       }, {
         title: '需要练习',
-      
+        renaming:false,
+        nameStatus:'重命名',
         items: [{
           itemName: '模拟-题目3',
           subjectIndex:0,

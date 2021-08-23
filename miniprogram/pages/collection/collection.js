@@ -6,13 +6,122 @@ Page({
    */
   data: {
    folders:'',
-   editing:false
+   editing:false,
+   building:false,
+   editStatus:'编辑',
+   buildStatus:'新建',
+   newing:'',
+   reNameNew:''
   },
-  longTap(e){
+  edit(e){
     let dataset=e.currentTarget.dataset
+    let a=this.data.editing
+    a=!a
+    if(a){
+      this.setData({
+        editing:a,
+        editStatus:'取消',
+        folders:app.globalData.folders
+      })
+    }else{
+      for(var i=0;i<app.globalData.folders.length;i++){
+        app.globalData.folders[i].renaming=false
+        app.globalData.folders[i].nameStatus='重命名'
+      }
+      this.setData({
+        editing:a,
+        editStatus:'编辑',
+        folders:app.globalData.folders
+      })
+    }
+  },
+  add(e){
+   let list=app.globalData.folders
+   let dataset=e.currentTarget.dataset
+   console.log(list.length)
+   if (list.length>=8){
+     wx.showToast({
+       title: '收藏夹太多啦',
+       icon:'none'
+     });
+     return;
+   }
+   let building=this.data.building,buildStatus=this.data.buildStatus
+   if(building){
+     let title=this.data.newing
+     if(title.length==0||this.repeat(title,list)){
+       wx.showToast({
+         title: '不要输入空白或者重名(＾Ｕ＾)ノ~',
+         icon:'none'
+       })
+     }else{
+      list.push({ title: title,items:[],renaming:false,nameStatus:'重命名'})
+      this.addFolder(title,dataset.UserId)
+     }
+   
+   }
+   building=!building
+   if(building){
+     buildStatus='确认'
+   }else{
+     buildStatus='新建'
+   }
+   this.setData({
+     building,
+     buildStatus,
+     folders:list  
+   })
+   this.data.newing=''
+   app.globalData.folders=list
+  },
+  repeat(title,list){
+     for(var i = 0,len=list.length;i<len;i++){
+       if(list[i].title==title){
+         return true
+       }
+     }
+     return false
+  },
+  rename(e){
+   let dataset=e.currentTarget.dataset,index=dataset.parentindex
+   for (var i=0;i<app.globalData.folders.length;i++){
+     if(i!=index){
+       this.data.folders[i].renaming=false
+       this.data.folders[i].nameStatus='重命名'
+     }
+   }
+   let target= this.data.folders[index],list=app.globalData.folders
+   let title=this.data.reNameNew
+   let renaming=this.data.folders[index].renaming 
+   if(renaming){
+    if(title.length==0||this.repeat(title,list)){
+      wx.showToast({
+        title: '不要输入空白或者重名(＾Ｕ＾)ノ~',
+        icon:'none'
+      })
+    }else{
+      target.title=title
+      app.globalData.folders[index].title=title //todo 改名
+    }
+      target.renaming=false
+      target.nameStatus='重命名'
+      this.setData({
+         folders:this.data.folders,
+         reNameNew:''
+      } )
+   }else{
+    target.renaming=true
+    target.nameStatus='确定'
     this.setData({
-      editing:true
-    })
+       folders:this.data.folders,
+    } )
+   }
+  },
+  renaming(e){
+     let reNameNew  =e.detail.value
+     this.setData({
+       reNameNew
+     })
   },
   delete(e){
     let dataset=e.currentTarget.dataset
@@ -28,20 +137,10 @@ Page({
 
   },
   newCollect(e){
-   let dataset=  e.currentTarget.dataset
-   let list=app.globalData.folders
-   if (list.length>=8){
-     wx.showToast({
-       title: '收藏夹太多啦'
-     });
-     return;
-   }
-   list.push({ title: dataset.title,
-   items:[]})
-   this.addFolder(dataset.title,dataset.UserId)
-   app.globalData.folders=list
+   let title=  e.detail.value
+  
    this.setData({
-     folders:list
+     newing:title
    })
   },
   addFolder(title,UserId){

@@ -10,39 +10,30 @@ page{
   align-items: center;
   padding: 0 25rpx;
   text-align: center;
-  font-size: 37rpx;
+  font-size: medium;
 }
-
 .bt_connect_left{
-
-  height: 50rpx;
+  height: 70rpx;
   color: #0a0a0a;
-  border: 3rpx solid #111118;
-  border-radius: 50rpx;
-  font-size: 30rpx;
-  margin-top: 10rpx;
-  width: 35%;
-  margin-top: 35px;
-  margin-left:10px;
+  font-size: small;
+  width: 25%;
+  margin-left:60px;
   display: flex;
-  float:left;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 .bt_connect_right{
-  height: 50rpx;
+  height: 70rpx;
   color: #0a0a0a;
-  border: 3rpx solid #111118;
-  border-radius: 50rpx;
-  font-size: 30rpx;
-  margin-top: 10rpx;
-  width: 35%;
-    display: flex;
-  margin-top: 35px;
-  margin-right:10px;
-  float:right;
+  font-size: small;
+  width: 25%;
+  display: flex;
+  margin-right:30px;
+  margin-left: 20px;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 /* 按钮的点击效果 */
 .hover-class-1 {
@@ -51,6 +42,12 @@ page{
 }
 .list_item_name{
   flex: 1;
+  font-size:medium;
+  text-align: left;
+}
+.list_item_item_name{
+  flex: 1;
+  font-size: small;
 }
 .icon_down{
   width: 35rpx;
@@ -84,3 +81,4 @@ page{
 .icon_down_rotate{
   transform:rotate(180deg);
 }
+
