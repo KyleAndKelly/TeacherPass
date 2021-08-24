@@ -39,6 +39,7 @@
   "appid": "wx0efdb6e657905868",
   "projectname": "jiegouhua",
   "libVersion": "2.14.1",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {
     "search": {
       "list": []

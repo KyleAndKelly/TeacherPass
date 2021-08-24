@@ -90,8 +90,6 @@ App({
         }]
       }
     ],
-    problemSavedList:[[[]]],
-
   },
   loginStatus:false,
   QuestionDataArray:[],

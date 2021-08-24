@@ -58,11 +58,14 @@ Page({
       })   
       var options =[]
       for(var i=0;i<app.globalData.folders.length;i++){
-         if(app.globalData.problemSavedList[query.subjectId][query.questionId][folders[i].title]!=null||false){
-          options.push({title:app.globalData.folders[i].title,star: true })
-         }else{
-           options.push({title:app.globalData.folders[i].title,star: false })
-         }       
+        options.push({title:app.globalData.folders[i].title,star: false })
+          for(var j=0;j<app.globalData.folders[i].items.length;j++){
+           if(app.globalData.folders[i].items[j].questionIndex==query.subjectId&&app.globalData
+            .folders[i].items[j].subjectIndex==query.subjectId){
+              options[i].star=false
+              break
+            } 
+          }        
       } 
       that.setData({
         optionList:options
