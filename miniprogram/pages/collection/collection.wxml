@@ -9,9 +9,6 @@
             <input class="input" placeholder='' bindinput ="renaming"/>
             <image src='/common/images/list.png' class='icon_down {{folder.show&&"icon_down_rotate"}}'></image>
         </view>
-
-   
-
        <view><button size="mini" wx:if="{{editing}}" class='bt_connect_left' style="width:30%" hover-class="hover-class-1" catchtap="delete" data-parentIndex='{{parentIndex}}' data-folder='{{folder}}'
              >删除</button>
        <button size="mini" wx:if='{{editing}}' class='bt_connect_right' style="width:30%"hover-class="hover-class-1" catchtap="rename" data-parentIndex='{{parentIndex}}' data-folder='{{folder}}'>{{folder.nameStatus}}</button>

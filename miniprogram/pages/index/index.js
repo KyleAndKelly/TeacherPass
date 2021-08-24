@@ -1,17 +1,14 @@
 // index.js
 // 获取应用实例
 
-const appInstance = getApp()
-
+const app = getApp()
 
 Page({
   data: {
-    optionList:['所有','选项1','选项2'],
+    optionList:[{title:'cs',star :true}],
     value:'所有',
- 
     hideFlag: true,//true-隐藏  false-显示
     animationData: {},//
-
     isShowAnswer : "hidden",
     isShowCounting :"hidden",
     title:"",
@@ -25,10 +22,17 @@ Page({
     changePageStatus:false,
     QuestionDataArray :[]
   },
-
   // 点击选项
   getOption:function(e){
     var that = this;
+    index=e.currentTarget.dataset.index
+    let items=app.globalData.folders[index].items
+    var si=  this.data.subjectIndex,qi= this.data.questionIndex
+    for(var i=0;i<items.length;i++){
+              if(items[i].questionIndex==qi&&items[i].subjectIndex==si){
+                items.splice(i,1)
+           }
+    }
     that.setData({
       value:e.currentTarget.dataset.value,
       hideFlag: true
@@ -39,27 +43,31 @@ Page({
     var that = this;
     that.hideModal();
   },
-
   onLoad: function(query){
-  
-    let that = this  
+    let that = this
     that.setData({
       subjectIndex : Number(query.subjectId),
       questionIndex :Number(query.questionId),
-      
     })
     console.log("debug: this.data.subjectIndex ", that.data.subjectIndex)
     console.log("debug: this.data.questionIndex ",that.data.questionIndex)
-    console.log("debug: appInstance.QuestionDataArray ",appInstance.QuestionDataArray)
-    
+    console.log("debug: appInstance.QuestionDataArray ",app.QuestionDataArray)
+    that.setData({
+        title :app.QuestionDataArray[query.subjectId][query.questionId].title,
+        answer : app.QuestionDataArray[query.subjectId][query.questionId].answer
+      })   
+      var options =[]
+      for(var i=0;i<app.globalData.folders.length;i++){
+         if(app.globalData.problemSavedList[query.subjectId][query.questionId][folders[i].title]!=null||false){
+          options.push({title:app.globalData.folders[i].title,star: true })
+         }else{
+           options.push({title:app.globalData.folders[i].title,star: false })
+         }       
+      } 
       that.setData({
-        title :appInstance.QuestionDataArray[query.subjectId][query.questionId].title,
-        answer : appInstance.QuestionDataArray[query.subjectId][query.questionId].answer
-      })          
-
+        optionList:options
+      })         
   }, 
-
- 
   setTimeCount:function(){
     if(this.data.changePageStatus ==true){
       this.setData({
@@ -72,8 +80,6 @@ Page({
         isShowCounting : "visible",
       
       })
-    
-
     
     console.log("debug:isShowCounting",this.data.isShowCounting)
     let time=this.data.time
@@ -99,6 +105,7 @@ Page({
     that.setData({
       hideFlag: false
     })
+    
     // 创建动画实例
     var animation = wx.createAnimation({
       duration: 400,//动画的持续时间
@@ -158,36 +165,21 @@ Page({
         questionIndex : Number(this.data.questionIndex)-1,
         
       })
-
-      
-      
       this.setData({
         changePageStatus:true,
         isShowAnswer:"hidden",
         isShowCounting :"hidden",
         time:180,
       })
-      
         this.setData({
           title : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
           answer : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
         })
-
-
-
       console.log("debug:isShowCounting",this.data.isShowCounting)
       console.log("debug:changePageStatus",this.data.changePageStatus)
-
     }
-
-
-       
-   
-    
   },
-
   nextQuestion:function(e){
-    
     if(this.data.questionIndex >= appInstance.QuestionDataArray[this.data.subjectIndex].length - 1 ){
       console.log("进入了 if")
       wx.showToast({
@@ -216,9 +208,6 @@ Page({
         title : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
         answer : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
       })
-
-
-
       console.log("debug:isShowCounting",this.data.isShowCounting)
       console.log("debug:changePageStatus",this.data.changePageStatus)
     }

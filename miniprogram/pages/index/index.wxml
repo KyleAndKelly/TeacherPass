@@ -21,7 +21,6 @@
 </view>
  
 
-
 <view class="wrap">
   <!-- modal  -->
   <view class="modal modal-bottom-dialog" hidden="{{hideFlag}}">
@@ -29,8 +28,8 @@
     <view class="bottom-dialog-body bottom-positon" animation="{{animationData}}">
       <!--  -->
       <view class='Mselect'>
-        <view wx:for="{{optionList}}" wx:key="unique" data-value='{{item}}' bindtap='getOption'>
-          {{item}}
+        <view wx:for="{{optionList}}" data-index="index" wx:key="unique" data-value='{{item}}' bindtap='getOption'  >
+          {{item.title}}
         </view>
       </view>
       <view></view>

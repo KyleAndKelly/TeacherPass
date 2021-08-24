@@ -1,7 +1,5 @@
 //app.js
 App({
-
-
   onLaunch: function () {
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -16,7 +14,7 @@ App({
         traceUser: true,
       })
     }
-    
+    problemSavedList[0][1]['熟练掌握']=true
 
     wx.login({
       success (res) {
@@ -28,10 +26,11 @@ App({
         }
       }
     })
-
+      
 
   },
-
+  
+ 
   globalData:{
     folders:[
       { title:'熟练掌握',
@@ -39,8 +38,8 @@ App({
         nameStatus:'重命名',
        items:[{
          itemName:'模拟-题目5',
-         subjectIndex:0,
-         questionIndex:1
+         subjectIndex:1,
+         questionIndex:2
        }, {
            itemName: '模拟-题目52',
            subjectIndex:0,
@@ -90,7 +89,9 @@ App({
           questionIndex:1
         }]
       }
-    ]
+    ],
+    problemSavedList:[[[]]],
+
   },
   loginStatus:false,
   QuestionDataArray:[],
