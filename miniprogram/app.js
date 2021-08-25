@@ -14,13 +14,21 @@ App({
         traceUser: true,
       })
     }
-    problemSavedList[0][1]['熟练掌握']=true
+ 
 
     wx.login({
       success (res) {
         console.log("debug:res.code: " ,res.code)
         if (res.code) {
-      
+      var url='https://api.weixin.qq.com/sns/jscode2session?appid=wx67ffbd719f1314d4&secret=0bb0ce67a98e2991f1bf99e3d4a2e753&js_code='+res.code+'&grant_type=authorization_code';
+      wx.request({
+        url: 'url',
+        method:'GET',
+        success:function(res){
+          console.log(res.data.openid)
+          this.globalData.openid=res.data.openid
+        }
+      })
         }else {
         console.log('登录失败！' + res.errMsg)
         }
@@ -90,6 +98,7 @@ App({
         }]
       }
     ],
+    openid:-1
   },
   loginStatus:false,
   QuestionDataArray:[],

@@ -126,15 +126,15 @@ Page({
   delete(e){
     let dataset=e.currentTarget.dataset
     let list=app.globalData.folders
-    this.deleteByFolderTitleAndUserid(dataset.folder.title,dataset.UserId)
+    this.deleteByFolderTitleAndUserid(dataset.folder.title,app.globalData.openid)
     list.splice(dataset.parentindex,1)
     app.globalData.folders=list
     this.setData({
       folders:list
     })
   },
-  deleteByFolderTitleAndUserid(folderTitle,UserId){
-
+  deleteByFolderTitleAndUserid(folderTitle,openid){
+            
   },
   newCollect(e){
    let title=  e.detail.value
