@@ -48,8 +48,8 @@ Page({
   },
 
   login:function(){
-    var that = this
     if(appInstance.loginStatus ==false){
+      let that=this;
       wx.getUserProfile({
         desc:"授权登录",
         success(res){
@@ -57,19 +57,34 @@ Page({
           that.setData({
             profileImageUrl:res.userInfo.avatarUrl,
             nickName:res.userInfo.nickName,
-           
           }),
           appInstance.loginStatus = true
           console.log("debug:loginStatus ",appInstance.loginStatus)
+          let openid
+          wx.cloud.callFunction({
+            name:'openid',
+            complete:res=>{
+              console.log(res)
+              appInstance.globalData.openid=res.result.openid
+              openid=res.result.openid
+              console.log(appInstance.globalData.openid)
+            }
+          })
+          const db=wx.cloud.database()
+          db.collection('CollectionTitle').where({
+            openid: openid
+          }).get({
+            success:function(res){
+              console.log(res)
+            }
+          })
         },
         fail(res){
           console.log("授权失败",res)
         }
       })
-      
-    }
    
-
+    }
   },
 
 
