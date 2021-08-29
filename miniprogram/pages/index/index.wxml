@@ -28,8 +28,10 @@
     <view class="bottom-dialog-body bottom-positon" animation="{{animationData}}">
       <!--  -->
       <view class='Mselect'>
-        <view wx:for="{{optionList}}" data-index="index" wx:key="unique" data-value='{{item}}' bindtap='getOption'  >
-          {{item.title}}
+        <view wx:for="{{optionList}}" wx:for-index="index"   data-index="{{index}}" wx:key="unique" 
+        data-value='{{item}}'  bindtap='getOption'  >
+          {{item.title}} 
+          <image src='/common/images/collect_s.png' class='icon_down {{"icon_down_rotate"}}' wx:if="{{item.star}}" ></image>
         </view>
       </view>
       <view></view>

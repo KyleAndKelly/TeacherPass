@@ -1,5 +1,6 @@
 // miniprogram/pages/collection.js
 const app=getApp()
+const db=wx.cloud.database()
 Page({
   /**
    * 页面的初始数据
@@ -17,29 +18,28 @@ Page({
     let dataset=e.currentTarget.dataset
     let a=this.data.editing
     a=!a
+    let folders=this.data.folders
     if(a){
       this.setData({
         editing:a,
         editStatus:'取消',
-        folders:app.globalData.folders
+        folders:folders
       })
     }else{
-      for(var i=0;i<app.globalData.folders.length;i++){
-        app.globalData.folders[i].renaming=false
-        app.globalData.folders[i].nameStatus='重命名'
+      for(var i=0;i<folders.length;i++){
+        folders.renaming=false
+        folders.nameStatus='重命名'
       }
       this.setData({
         editing:a,
         editStatus:'编辑',
-        folders:app.globalData.folders
+        folders:folders
       })
     }
   },
   add(e){
-   let list=app.globalData.folders
-   let dataset=e.currentTarget.dataset
-   console.log(list.length)
-   if (list.length>=8){
+   let list=this.data.folders
+   if (list.length>=12){
      wx.showToast({
        title: '收藏夹太多啦',
        icon:'none'
@@ -56,7 +56,7 @@ Page({
        })
      }else{
       list.push({ title: title,items:[],renaming:false,nameStatus:'重命名'})
-      this.addFolder(title,dataset.UserId)
+      this.updateFolder()
      }
    
    }
@@ -72,7 +72,6 @@ Page({
      folders:list  
    })
    this.data.newing=''
-   app.globalData.folders=list
   },
   repeat(title,list){
      for(var i = 0,len=list.length;i<len;i++){
@@ -94,14 +93,14 @@ Page({
    let title=this.data.reNameNew
    let renaming=this.data.folders[index].renaming 
    if(renaming){
-    if(title.length==0||title.length>8||this.repeat(title,list)){
+    if(title.length==0||title.length>12||this.repeat(title,list)){
       wx.showToast({
         title: '不要空白重名或太长哦(＾Ｕ＾)ノ~',
         icon:'none'
       })
     }else{
       target.title=title
-      app.globalData.folders[index].title=title //todo 改名
+      app.globalData.folders[index].title=title 
     }
       target.renaming=false
       target.nameStatus='重命名'
@@ -109,12 +108,14 @@ Page({
          folders:this.data.folders,
          reNameNew:''
       } )
+      this.updateFolder()
    }else{
     target.renaming=true
     target.nameStatus='确定'
     this.setData({
        folders:this.data.folders,
     } )
+    this.updateFolder()
    }
   },
   renaming(e){
@@ -123,19 +124,16 @@ Page({
        reNameNew
      })
   },
-  delete(e){
+  delete1(e){
     let dataset=e.currentTarget.dataset
     let list=app.globalData.folders
-    this.deleteByFolderTitleAndUserid(dataset.folder.title,app.globalData.openid)
     list.splice(dataset.parentindex,1)
-    app.globalData.folders=list
     this.setData({
       folders:list
     })
+    this.updateFolder()
   },
-  deleteByFolderTitleAndUserid(folderTitle,openid){
-            
-  },
+ 
   newCollect(e){
    let title=  e.detail.value
   
@@ -143,26 +141,37 @@ Page({
      newing:title
    })
   },
-  addFolder(title,UserId){
-        
+  updateFolder(){
+        wx.cloud.callFunction({
+          name:'updateFolder',
+          data:{
+            folders: app.globalData.folders
+          },
+          success:function(res){
+            console.log('callFunction test result:',res)
+          },fail:function(res){
+            console.log(res)
+          }
+        })
   },
   cancelCollect(e){
     let dataset=e.currentTarget.dataset
     let list= app.globalData.folders
-    list[dataset.parentindex].items.splice(dataset.childindex,1)
-    this.deleteBySubjectQuestionAndCollectId(dataset.subjectIndex,dataset.questionIndex,dataset.parentindex)
-    app.globalData.folders=list
+     var key =list[dataset.parentindex].title+list[dataset.parentindex].items[dataset.childindex].subjectId+list[dataset.parentindex].items[dataset.childindex].questionId
+  
+     app.globalData.hashmap[key]=false
+            list[dataset.parentindex].items.splice(dataset.childindex,1)
+
+    this.updateFolder()
     this.setData({
       folders:list
     })
   },
-  deleteBySubjectQuestionAndCollectId(a,b,c){
 
-  },
   //点击最外层列表展开收起
   listTap(e){
     let Index = e.currentTarget.dataset.parentindex,//获取点击的下标值
-        list=app.globalData.folders;
+        list=this.data.folders;
     list[Index].show = !list[Index].show || false;//变换其打开、关闭的状态
     if (list[Index].show){//如果点击后是展开状态，则让其他已经展开的列表变为收起状态
       this.packUp(list,Index);
@@ -170,15 +179,14 @@ Page({
     this.setData({
       folders:list
     });
-    app.globalData.folders=list
   },
   //点击里面的子列表
   listItemTap(e){
     console.log(e)
-      let dataset=e.currentTarget.dataset
+      let dataset=e.currentTarget.dataset.item
     wx.navigateTo({
       //拼接参数到要跳转的页面
-      url: `/pages/index/index?subjectId=`+Number(dataset.subjectIndex)+`&questionId=`+Number(dataset.questionIndex)
+      url: `/pages/index/index?subjectId=`+Number(dataset.subjectId)+`&questionId=`+Number(dataset.questionId)
     })
   },
   //让所有的展开项，都变为收起
@@ -190,8 +198,17 @@ Page({
     }
   },
   onLoad: function (options) {
+    this.data.folders=app.globalData.folders
+      for(var i=0;i<this.data.folders.length;i++){
+        console.log(this.data.folders.length)
+           this.data. folders[i].nameStatus="重命名"
+           this.data. folders[i].renaming=false
+      }
+
+     console.log(this.data.folders)
+     console.log(app.globalData.folders)
       this.setData({
-        folders:app.globalData.folders
+        folders:this.data.folders
       })
   },
 
@@ -226,9 +243,39 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-
+  onRefresh(){
+    //在当前页面显示导航条加载动画
+   
+  
+    this.getData();
+    wx.hideLoading({
+      success: (res) => {wx.showToast({
+        title: '刷新成功',
+      })},
+    })
+    wx.hideNavigationBarLoading({
+      success: (res) => {},
+    })
   },
+//网络请求，获取数据
+getData(){
+  wx.showNavigationBarLoading(); 
+  //显示 loading 提示框。需主动调用 wx.hideLoading 才能关闭提示框
+  wx.showLoading({
+    title: '刷新中...',
+  })
+ this.setData({
+   folders:app.globalData.folders
+ }) 
+
+},
+/**
+ * 页面相关事件处理函数--监听用户下拉动作
+ */
+onPullDownRefresh: function () {
+    //调用刷新时将执行的方法
+  this.onRefresh();
+},
 
   /**
    * 页面上拉触底事件的处理函数

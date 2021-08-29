@@ -24,51 +24,84 @@ Page({
   },
   // 点击选项
   getOption:function(e){
+    console.log(e)
     var that = this;
-    index=e.currentTarget.dataset.index
-    let items=app.globalData.folders[index].items
+    let hashmap=app.globalData.hashmap
+    let index=e.currentTarget.dataset.index
+    let option=this.data.optionList[index]
     var si=  this.data.subjectIndex,qi= this.data.questionIndex
-    for(var i=0;i<items.length;i++){
-              if(items[i].questionIndex==qi&&items[i].subjectIndex==si){
-                items.splice(i,1)
-           }
+    let items=app.globalData.folders[index].items
+    let key=option.title+si+qi
+    console.log(option)
+    if(option.star==true){
+      option.star=false
+      hashmap[key]=false
+      for(var i=0;i<items.length;i++){
+                if(items[i].questionId==qi&&items[i].subjectId==si){
+                  items.splice(i,1)
+                  break
+             }
+      }
+    }else{
+      option.star=true
+      hashmap[key]=true
+      let title=this.data.title
+      if(title.length>25){
+       title=title.slice(0,25)+"..."
+       }
+      items.push({title:title,subjectId:si,questionId:qi})
     }
+   
     that.setData({
       value:e.currentTarget.dataset.value,
-      hideFlag: true
+      hideFlag: false,
+      optionList:this.data.optionList
     })
+    this.updateFolder()
   },
+  updateFolder(){
+    wx.cloud.callFunction({
+      name:'updateFolder',
+      data:{
+        folders: app.globalData.folders
+      },
+      success:function(res){
+        console.log('callFunction test result:',res)
+      },fail:function(res){
+        console.log(res)
+      }
+    })
+},
   //取消
   mCancel: function () {
     var that = this;
     that.hideModal();
   },
   onLoad: function(query){
+    console.log(query)
     let that = this
     that.setData({
       subjectIndex : Number(query.subjectId),
       questionIndex :Number(query.questionId),
     })
-    console.log("debug: this.data.subjectIndex ", that.data.subjectIndex)
-    console.log("debug: this.data.questionIndex ",that.data.questionIndex)
-    console.log("debug: appInstance.QuestionDataArray ",app.QuestionDataArray)
+    let subjectId=query.subjectId
+    let questionId=query.questionId
     that.setData({
         title :app.QuestionDataArray[query.subjectId][query.questionId].title,
         answer : app.QuestionDataArray[query.subjectId][query.questionId].answer
       })   
       var options =[]
       for(var i=0;i<app.globalData.folders.length;i++){
-        options.push({title:app.globalData.folders[i].title,star: false })
-          for(var j=0;j<app.globalData.folders[i].items.length;j++){
-           if(app.globalData.folders[i].items[j].questionIndex==query.subjectId&&app.globalData
-            .folders[i].items[j].subjectIndex==query.subjectId){
-              options[i].star=false
-              break
-            } 
-          }        
-      } 
+        options.push({title:app.globalData.folders[i].title,star:false })
+        let key=options[i].title+subjectId+questionId
+        if(app.globalData.hashmap[key]==true){
+          options[i].star=true
+        }      
+      }
       that.setData({
-        optionList:options
+        optionList:options,
+        questionIndex:questionId,
+        subjectIndex:subjectId
       })         
   }, 
   setTimeCount:function(){
@@ -168,23 +201,34 @@ Page({
         questionIndex : Number(this.data.questionIndex)-1,
         
       })
+      let options=this.data.optionList
+      for(var i=0;i<app.globalData.folders.length;i++){
+        let key=options[i].title+this.data.subjectIndex+this.data.questionIndex
+        if(app.globalData.hashmap[key]==true){
+          options[i].star=true
+        }else{
+          options[i].star=false
+        }      
+      }
       this.setData({
         changePageStatus:true,
         isShowAnswer:"hidden",
         isShowCounting :"hidden",
         time:180,
+        optionList:options
       })
         this.setData({
-          title : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
-          answer : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
+          title :app.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
+          answer : app.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
         })
       console.log("debug:isShowCounting",this.data.isShowCounting)
       console.log("debug:changePageStatus",this.data.changePageStatus)
     }
   },
   nextQuestion:function(e){
-    if(this.data.questionIndex >= appInstance.QuestionDataArray[this.data.subjectIndex].length - 1 ){
-      console.log("进入了 if")
+    if(this.data.questionIndex >= app.QuestionDataArray[this.data.subjectIndex].length - 1 ){
+
+   
       wx.showToast({
         title: '已经是最后一个题了',
         icon: 'none',
@@ -194,22 +238,29 @@ Page({
     }else{
 
       this.setData({
-        questionIndex : this.data.questionIndex+1,
+        questionIndex : Number(this.data.questionIndex)+1,
  
-      })
-      console.log("type of questionIndex",typeof(this.data.questionIndex))
-      console.log("this.data.questionIndex",this.data.questionIndex)
-    
+      })    
+         let options=this.data.optionList
+      for(var i=0;i<app.globalData.folders.length;i++){
+        let key=options[i].title+this.data.subjectIndex+this.data.questionIndex
+        if(app.globalData.hashmap[key]==true){
+          options[i].star=true
+        }else{
+          options[i].star=false
+        }      
+      }
       this.setData({
         changePageStatus:true,
         isShowAnswer:"hidden",
         isShowCounting :"hidden",
         time:180,
+        optionList:options
       })
 
       this.setData({
-        title : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
-        answer : appInstance.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
+        title : app.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
+        answer : app.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
       })
       console.log("debug:isShowCounting",this.data.isShowCounting)
       console.log("debug:changePageStatus",this.data.changePageStatus)
@@ -220,7 +271,7 @@ Page({
   showList:function(e){
         //参数就在e里面，设置一个变量来得到参数。
         const subjIndex = this.data.subjectIndex
-        const questionNum = appInstance.QuestionDataArray[this.data.subjectIndex].length
+        const questionNum = app.QuestionDataArray[this.data.subjectIndex].length
         console.log("debug:subjIndex ",subjIndex)
         //执行跳转的js
         wx.navigateTo({

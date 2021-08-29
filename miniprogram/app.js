@@ -20,66 +20,8 @@ App({
   
  
   globalData:{
-    openId:-1,
-    folders:[
-      { title:'熟练掌握',
-        renaming:false,
-        nameStatus:'重命名',
-       items:[{
-         itemName:'模拟-题目5',
-         subjectIndex:1,
-         questionIndex:2
-       }, {
-           itemName: '模拟-题目52',
-           subjectIndex:0,
-           questionIndex:1
-       }, {
-           itemName: '模拟-题目5',
-           subjectIndex:0,
-           questionIndex:1
-       
-       }]
-      }, 
-      {
-        title: '差强人意',
-        renaming:false,
-        nameStatus:'重命名',
-        items: [{
-          itemName: '模拟-题目5',
-          subjectIndex:0,
-          questionIndex:1
-
-        }, {
-          itemName: '模拟-题目5',
-          subjectIndex:0,
-          questionIndex:1
-        }, {
-          itemName: '模拟-题目5',
-          subjectIndex:0,
-          questionIndex:1
-        }]
-      }, {
-        title: '需要练习',
-        renaming:false,
-        nameStatus:'重命名',
-        items: [{
-          itemName: '模拟-题目3',
-          subjectIndex:0,
-          questionIndex:1
-     
-        }, {
-          itemName: '模拟-题目5',
-          subjectIndex:0,
-          questionIndex:1
-   
-        }, {
-          itemName: '模拟-题目5',
-          subjectIndex:0,
-          questionIndex:1
-        }]
-      }
-    ],
-    openid:-1
+    folders:[],
+    hashmap:[]
   },
   loginStatus:false,
   QuestionDataArray:[],
