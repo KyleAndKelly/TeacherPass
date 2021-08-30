@@ -1,4 +1,5 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "结构化刷题宝"
+  "navigationBarTitleText": "结构化刷题宝",
+  "enablePullDownRefresh": true
 }

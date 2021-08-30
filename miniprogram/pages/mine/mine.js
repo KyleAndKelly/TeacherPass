@@ -53,17 +53,29 @@ Page({
       wx.getUserProfile({
         desc:"授权登录",
         success(res){
-          console.log("授权成功",res),
           that.setData({
             profileImageUrl:res.userInfo.avatarUrl,
             nickName:res.userInfo.nickName,
           }),
           appInstance.loginStatus = true
           console.log("debug:loginStatus ",appInstance.loginStatus)
+          wx.showLoading({
+            title: '加载收藏数据中',
+          })
+          
+          setTimeout(function () {
+            wx.hideLoading({
+              success: (res) => {
+                wx.showToast({
+                  title: '加载成功',
+                  duration:800
+                })
+              },
+            })
+          }, 2000)
           wx.cloud.callFunction({
             name:'getFolder',
             success:function(res){
-              console.log('callFunction test result:',res)
               if(res.result.data[0]==null){
                 appInstance.globalData.folders=[
                   { title:'熟练掌握',
@@ -154,6 +166,25 @@ Page({
       //拼接参数到要跳转的页面"
         url: `/pages/cheats/cheats`
       })
-  }
+  },
+  onPullDownRefresh: function () {
+    wx.showLoading({
+      title: '刷新中',
+    })
+    wx.showNavigationBarLoading({
+     
+    })
+    setTimeout(function () {
+      wx.hideLoading({
+        success: (res) => {wx.showToast({
+          title: '刷新成功',
+          duration:700
+        })},
+      }),
+      wx.hideNavigationBarLoading({
+        success: (res) => {},
+      })
+    }, 600)
+}
 
 })

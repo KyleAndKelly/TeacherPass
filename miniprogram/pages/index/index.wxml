@@ -5,7 +5,7 @@
 
 
   <view class="question">
-  <text> 第{{questionIndex +1 }}题 : {{title}}</text>
+  <text> 第{{(questionIndex|Int) +1 }}题 : {{title}}</text>
   </view>
 
 

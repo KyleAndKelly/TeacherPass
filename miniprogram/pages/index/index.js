@@ -46,8 +46,8 @@ Page({
       option.star=true
       hashmap[key]=true
       let title=this.data.title
-      if(title.length>25){
-       title=title.slice(0,25)+"..."
+      if(title.length>32){
+       title=title.slice(0,32)+"..."
        }
       items.push({title:title,subjectId:si,questionId:qi})
     }

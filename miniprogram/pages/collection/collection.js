@@ -9,20 +9,19 @@ Page({
    folders:'',
    editing:false,
    building:false,
-   editStatus:'编辑',
-   buildStatus:'新建',
+   editStatus:"编辑",
+   buildStatus:"新建",
    newing:'',
    reNameNew:''
   },
   edit(e){
-    let dataset=e.currentTarget.dataset
     let a=this.data.editing
     a=!a
     let folders=this.data.folders
     if(a){
       this.setData({
         editing:a,
-        editStatus:'取消',
+        editStatus:"确认",
         folders:folders
       })
     }else{
@@ -32,7 +31,7 @@ Page({
       }
       this.setData({
         editing:a,
-        editStatus:'编辑',
+        editStatus:"编辑",
         folders:folders
       })
     }
@@ -62,9 +61,9 @@ Page({
    }
    building=!building
    if(building){
-     buildStatus='确认'
+     buildStatus="确认"
    }else{
-     buildStatus='新建'
+     buildStatus="新建"
    }
    this.setData({
      building,
@@ -245,25 +244,27 @@ Page({
    */
   onRefresh(){
     //在当前页面显示导航条加载动画
-   
-  
     this.getData();
-    wx.hideLoading({
-      success: (res) => {wx.showToast({
-        title: '刷新成功',
-      })},
-    })
-    wx.hideNavigationBarLoading({
-      success: (res) => {},
-    })
   },
 //网络请求，获取数据
 getData(){
   wx.showNavigationBarLoading(); 
   //显示 loading 提示框。需主动调用 wx.hideLoading 才能关闭提示框
   wx.showLoading({
-    title: '刷新中...',
+    title: '加载中',
   })
+  
+  setTimeout(function () {
+    wx.hideLoading({
+      success: (res) => {wx.showToast({
+        title: '刷新成功',
+        duration:700
+      })},
+    })
+    wx.hideNavigationBarLoading({
+      success: (res) => {},
+    })
+  }, 600)
  this.setData({
    folders:app.globalData.folders
  }) 
