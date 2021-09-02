@@ -21,7 +21,7 @@ Page({
     if(a){
       this.setData({
         editing:a,
-        editStatus:"确认",
+        editStatus:"编辑完成",
         folders:folders
       })
     }else{
@@ -61,9 +61,9 @@ Page({
    }
    building=!building
    if(building){
-     buildStatus="确认"
+     buildStatus="新建完成"
    }else{
-     buildStatus="新建"
+     buildStatus="编辑完成"
    }
    this.setData({
      building,

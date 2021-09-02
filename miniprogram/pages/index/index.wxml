@@ -48,10 +48,19 @@
 
 
   
+<scroll-view class="answer" scroll-y="true" >
+  <text user-select = "true" >{{asr}}</text>
+</scroll-view>
+
+<view  >
+<image src='/common/images/mac.jpg' bindtap="voiceInput"></image>
+</view>
 
   <scroll-view  class="answer" scroll-y= "true"   style = "visibility:{{isShowAnswer}}" > 
   <text user-select = "true" >{{answer}}</text>
   </scroll-view>
+
+
 
   <view class="timeCount" style = "visibility:{{isShowCounting}} ;text-align : center">   
     <text>答题倒计时:{{time}} 秒</text>

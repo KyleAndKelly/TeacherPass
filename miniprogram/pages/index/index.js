@@ -2,7 +2,22 @@
 // 获取应用实例
 
 const app = getApp()
-
+var plugin=requirePlugin("WechatSI")
+let manager = plugin.getRecordRecognitionManager()
+manager.onRecognize = function(res) {
+    console.log("current result", res.result)
+}
+manager.onStop = function(res) {
+    console.log("record file path", res.tempFilePath)
+    console.log("result", res.result)
+    this.data.asr=res.result
+}
+manager.onStart = function(res) {
+    console.log("成功开始录音识别", res)
+}
+manager.onError = function(res) {
+    console.error("error msg", res.msg)
+}
 Page({
   data: {
     optionList:[{title:'cs',star :true}],
@@ -13,6 +28,9 @@ Page({
     isShowCounting :"hidden",
     title:"",
     answer:"",
+    lang:"zh_CN",
+    asr:"",
+    recording: false,
     questionIndex:Number(0),
     subjectIndex:Number(0),
     time:"180",
@@ -22,6 +40,19 @@ Page({
     changePageStatus:false,
     QuestionDataArray :[]
   },
+  voiceInput(){
+    var recording=this.data.recording
+    recording=!recording
+    if(recording){
+      manager.start({duration:60000, lang: this.data.lang})
+    }else{
+      manager.stop()
+    }
+    this.setData({
+      recording:recording
+    })
+    },
+
   // 点击选项
   getOption:function(e){
     console.log(e)
@@ -116,8 +147,6 @@ Page({
         isShowCounting : "visible",
       
       })
-    
-    console.log("debug:isShowCounting",this.data.isShowCounting)
     let time=this.data.time
     time--;
     if (time <= 0) {
@@ -126,8 +155,6 @@ Page({
     this.setData({
     time:time
     })
-
-   
       setTimeout(this.setTimeCount,1000);      
     },
   showAnswer:function(e){
@@ -136,12 +163,12 @@ Page({
     })
     
   },
+
   collect:function(e){
     var that = this;
     that.setData({
       hideFlag: false
     })
-    
     // 创建动画实例
     var animation = wx.createAnimation({
       duration: 400,//动画的持续时间
@@ -262,8 +289,6 @@ Page({
         title : app.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
         answer : app.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
       })
-      console.log("debug:isShowCounting",this.data.isShowCounting)
-      console.log("debug:changePageStatus",this.data.changePageStatus)
     }
     
   },
