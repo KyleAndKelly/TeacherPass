@@ -10,16 +10,16 @@
 
 
 
-  <view class = "topMenu">  
+  <view class = "topMenu">
      <view>
     <image class ="topMenuButton" src="{{collectImage}}" bindtap="collect" ></image>
      </view>
-    
+
      <view>
     <image class ="topMenuButton" src="{{listImage}}" bindtap="showList" ></image>
      </view>
 </view>
- 
+
 
 <view class="wrap">
   <!-- modal  -->
@@ -28,9 +28,9 @@
     <view class="bottom-dialog-body bottom-positon" animation="{{animationData}}">
       <!--  -->
       <view class='Mselect'>
-        <view wx:for="{{optionList}}" wx:for-index="index"   data-index="{{index}}" wx:key="unique" 
+        <view wx:for="{{optionList}}" wx:for-index="index"   data-index="{{index}}" wx:key="unique"
         data-value='{{item}}'  bindtap='getOption'  >
-          {{item.title}} 
+          {{item.title}}
           <image src='/common/images/collect_s.png' class='icon_down {{"icon_down_rotate"}}' wx:if="{{item.star}}" ></image>
         </view>
       </view>
@@ -38,7 +38,7 @@
       <view class='Mcancel' bindtap='mCancel'>
         <text>取消</text>
       </view>
- 
+
     </view>
   </view>
 </view>
@@ -47,36 +47,33 @@
 
 
 
-  
-<scroll-view class="answer" scroll-y="true" >
+
+<scroll-view class="answer" scroll-y="true" wx:if = '{{isShowAsr}}'>
   <text user-select = "true" >{{asr}}</text>
 </scroll-view>
 
 <view  >
-<image src='/common/images/mac.jpg' bindtap="voiceInput"></image>
+<image src="{{macOrStop}}" class ="topMenuButton" ></image>
 </view>
 
-  <scroll-view  class="answer" scroll-y= "true"   style = "visibility:{{isShowAnswer}}" > 
+  <scroll-view  class="answer" scroll-y= "true"   wx:if = '{{isShowAnswer}}'>
   <text user-select = "true" >{{answer}}</text>
   </scroll-view>
-
-
-
-  <view class="timeCount" style = "visibility:{{isShowCounting}} ;text-align : center">   
+  <view class="timeCount" style = " text-align : center" wx:if="{{writing}}">
     <text>答题倒计时:{{time}} 秒</text>
   </view>
 
    <view classs="bottomMenu">
-  <button class="btn" bindtap="setTimeCount"> 
-  开始作答
+  <button class="btn" bindtap="setTimeCount">
+  {{startOrStop}}
   </button>
-  <button class="btn" bindtap="showAnswer"> 
-  看看答案
+  <button class="btn" bindtap="showAnswer">
+  {{seeOrHide}}
  </button>
-  <button class="btn" bindtap="prevQuestion"> 
+  <button class="btn" bindtap="prevQuestion" wx:if="{{!writing}}">
   上一题
  </button>
- <button class="btn" bindtap="nextQuestion"> 
+ <button class="btn" bindtap="nextQuestion" wx:if="{{!writing}}">
   下一题
  </button>
 
@@ -87,6 +84,5 @@
 
 
 </view>
- 
 
- 
+
