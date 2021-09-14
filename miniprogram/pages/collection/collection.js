@@ -1,4 +1,6 @@
 // miniprogram/pages/collection.js
+// miniprogram/pages/collection.js
+// miniprogram/pages/collection.js
 const app=getApp()
 const db=wx.cloud.database()
 Page({
