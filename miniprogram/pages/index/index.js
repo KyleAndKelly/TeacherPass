@@ -1,6 +1,7 @@
 // index.js
 // 获取应用实例
-
+// 获取应用实例
+// 获取应用实例
 const app = getApp()
 var plugin=requirePlugin("WechatSI")
 let manager = plugin.getRecordRecognitionManager()
