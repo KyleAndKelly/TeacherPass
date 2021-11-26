@@ -1,0 +1,22 @@
+/* pages/recordingList/recordingList.wxss */
+
+.question{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin:80rpx
+}
+
+
+.audioList{
+  display:flex;
+  text-align: center;
+  margin:30rpx
+}
+
+.audio{
+  display:flex;
+  text-align: center;
+
+}

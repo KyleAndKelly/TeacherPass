@@ -17,11 +17,14 @@ App({
     }
  
   },
-  
- 
+
+
+
   globalData:{
     folders:[],
-    hashmap:[]
+    hashmap:[],
+    openId:'',
+    recordingListData:[]
   },
   loginStatus:false,
   QuestionDataArray:[],

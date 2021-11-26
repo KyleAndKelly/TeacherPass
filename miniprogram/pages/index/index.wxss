@@ -7,7 +7,7 @@
   margin-right:15rpx;
  
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content:space-between;
 
 
@@ -18,16 +18,14 @@
 
   margin-left:15rpx;
   margin-right:15rpx;
-
+  margin-top:50rpx;
+  margin-bottom:50rpx;
   
   }
 .topMenu{
-  position: relative;
-
-
   display: flex;
-  margin-left:auto;
-  flex-direction: column;
+  margin:auto;
+  flex-direction: row;
   flex-grow: 1;
   justify-content:space-around;
 
@@ -59,11 +57,88 @@ flex-grow: 1;
 
   
 }
-.timeCount{
+/* .timeCount{
   position: relative;
   top:10px;
+} */
+
+
+.timerCount{
+
+  margin-top:60rpx;
+  margin-left:120rpx
 }
+
+
+/*录音相关动画*/
+.recode {
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  color: #fff;
+  margin-top: 150rpx;
+}
+.recode .record-bgm {
+  width: 105rpx;
+  height: 105rpx;
+  border-radius: 50%;
+  background:rgba(105,129,255,1);
+}
+.recode .record-wave-multiple {
+  position: absolute;
+  left: 0; 
+  top: 0;
+}
+.record-wave-multiple>view {
+  display: inline-block;
+  background-color: #6981FF;
+  border: 0 solid #6981FF;
+  position: absolute;
+  top: -25rpx;
+  left: -27rpx;
+  width: 170rpx;
+  height: 170rpx;
+  border-radius: 100%;
+  opacity: 0;
+  -webkit-animation: circle-wave-multiple 1.8s cubic-bezier(.41,.4,.67,1) 0s infinite;
+  animation: circle-wave-multiple 1.8s cubic-bezier(.41,.4,.67,1) 0s infinite;
+}
+.record-wave-multiple>view:nth-child(2) {
+  -webkit-animation-delay: .6s;
+  animation-delay: .6s;
+}
+.record-wave-multiple>view:nth-child(3) {
+  -webkit-animation-delay: 1.2s;
+  animation-delay: 1.2s;
+}
+@keyframes circle-wave-multiple {
+  0% {
+      opacity: 0;
+      transform: scale(.4);
+  }
+  5% {
+      opacity: .5;
+  }
+  100% {
+      opacity: 0;
+      transform: scale(1);
+  }
+} 
+
+
+
+
+
+
+
+
 .bottomMenu{
+  margin-top:100rpx;
  
 }
 

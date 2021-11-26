@@ -1,0 +1,11 @@
+<!-- audio.wxml -->
+
+<view class="question">
+  <text>   {{curQuestion}}</text>
+</view>
+
+<view class ="audioList" wx:for="{{soundList}}">
+<audio class="audio" poster="{{post}}" name="{{item.timeStamp}}" author="{{item.duration}}" src="{{item.filePath}}" id="myAudio"  bindended = "endPlay"  controls="true" ></audio>
+<!-- <audio poster="{{post}}" name="1" author="2" src="https://7465-test-5ga1gsyad0e2c798-1306885385.tcb.qcloud.la/oOzTw4l4Y4bOMmYqdNlfkLPKT34A/1636809039811.mp3?sign=92cefec4fc53dc128cefa896ebdabc07&t=1636844547" id="myAudio"  bindended = "endPlay" controls="true" ></audio> -->
+
+</view>

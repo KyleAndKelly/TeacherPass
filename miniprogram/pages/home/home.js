@@ -39,13 +39,6 @@ Page({
       })
     })
 
-    //从数据库获取QuestionData集合数据放到QuestionDataArray[]
-    //从数据库读取数据
-    //这里用async await 获取一下 集合中记录的总数
-    // const c = db.collection("QuestionData"); //获取集合中记录的总数
-    // const total = await (await c.count()).total
-    // const batchTimes = Math.ceil(total / 20)
-    // console.log(batchTimes) //计算需要获取几次  比如你有36条数据就要获取两次 第一次20条第二次16条
 
     let tmpArray1 = []
     let tmpArray2 = []
@@ -157,7 +150,7 @@ Page({
 
   dbGetPromise(collectionName,skipNum){  //对数据库读取API同步化
     var db = wx.cloud.database()
-    return new Promise(function(resolve,reject){ //异步操作接收购物车表数据
+    return new Promise(function(resolve,reject){ //
       db.collection(collectionName).skip(skipNum).get({
         success:res=>{
           console.log("读取成功")
