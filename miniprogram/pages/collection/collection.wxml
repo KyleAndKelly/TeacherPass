@@ -14,7 +14,7 @@
        <button size="mini" wx:if='{{editing}}' class='bt_connect_right' style="width:30%" hover-class="hover-class-1" catchtap="rename" data-parentIndex='{{parentIndex}}' data-folder='{{folder}}'>{{folder.nameStatus}}</button>
       </view>
         <view class='list_item_box' wx:if='{{folder.show}}'>
-            <view class='list_item' wx:for='{{folder.items}}' wx:for-item="item"
+            <scroll-view class='list_item' wx:for='{{folder.items}}' wx:for-item="item"
             wx:for-index='childIndex'
             wx:key='this' catchtap='listItemTap'
              data-parentIndex='{{parentIndex}}'
@@ -27,7 +27,7 @@
                      data-subjectIndex='{{item.subjectIndex}}'
                      data-parentIndex="{{parentIndex}}"></image>
                 </view>     
-            </view>
+            </scroll-view>
         </view>
     </view>
 </view>

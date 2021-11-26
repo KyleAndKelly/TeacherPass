@@ -2,11 +2,12 @@
 <view class="container">
   <view class ="top">
 
+
     <view class = "topMenu">  
      <view>
     <image class ="topMenuButton" src="{{collectImage}}" bindtap="collect" ></image>
      </view>
-    
+
      <view>
     <image class ="topMenuButton" src="{{listImage}}" bindtap="showList" ></image>
      </view>
@@ -21,7 +22,7 @@
 
 
 </view>
- 
+
 
   <view class="question">
   <text> 第{{(questionIndex|Int) +1 }}题 : {{title}}</text>
@@ -38,9 +39,9 @@
     <view class="bottom-dialog-body bottom-positon" animation="{{animationData}}">
       <!--  -->
       <view class='Mselect'>
-        <view wx:for="{{optionList}}" wx:for-index="index"   data-index="{{index}}" wx:key="unique" 
+        <view wx:for="{{optionList}}" wx:for-index="index"   data-index="{{index}}" wx:key="unique"
         data-value='{{item}}'  bindtap='getOption'  >
-          {{item.title}} 
+          {{item.title}}
           <image src='/common/images/collect_s.png' class='icon_down {{"icon_down_rotate"}}' wx:if="{{item.star}}" ></image>
         </view>
       </view>
@@ -48,7 +49,7 @@
       <view class='Mcancel' bindtap='mCancel'>
         <text>取消</text>
       </view>
- 
+
     </view>
   </view>
 </view>
@@ -59,13 +60,21 @@
 
 
 
-  
 
-  <scroll-view  class="answer" scroll-y= "true"   style = "visibility:{{isShowAnswer}}" > 
+<scroll-view class="answer" scroll-y="true" wx:if = '{{isShowAsr}}'>
+  <text user-select = "true" >{{asr}}</text>
+</scroll-view>
+
+<view  >
+<image src="{{macOrStop}}" class ="topMenuButton" ></image>
+</view>
+
+  <scroll-view  class="answer" scroll-y= "true"   wx:if = '{{isShowAnswer}}'>
   <text user-select = "true" >{{answer}}</text>
   </scroll-view>
 
   <!-- <view class="timeCount" style = "visibility:{{isShowCounting}} ;text-align : center">   
+
     <text>答题倒计时:{{time}} 秒</text>
   </view> -->
 
@@ -92,7 +101,6 @@
   </view>
 
 
-
   <!-- <button  class="btn" bindtap="startRecordingTest" > 
 测试录音
   </button> -->
@@ -100,15 +108,18 @@
    <view class="bottomMenu">
   <button  class="btn" bindtap="startRecording" > 
  {{RecordText}}
+
   </button>
-  <button class="btn" bindtap="showAnswer"> 
-  看看答案
+  <button class="btn" bindtap="showAnswer">
+  {{seeOrHide}}
  </button>
+
   <button class="btn" bindtap="myAnswer" > 
   作答记录
  </button>
  <button class="btn" bindtap="square"  > 
   练习广场
+
  </button>
 
 
@@ -118,6 +129,5 @@
 
 
 </view>
- 
 
- 
+

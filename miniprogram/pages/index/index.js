@@ -1,7 +1,10 @@
 // index.js
 // 获取应用实例
-
+// 获取应用实例
+// 获取应用实例
 const app = getApp()
+var plugin=requirePlugin("WechatSI")
+let manager = plugin.getRecordRecognitionManager()
 
 Page({
   data: {
@@ -9,11 +12,19 @@ Page({
     value:'所有',
     hideFlag: true,//true-隐藏  false-显示
     animationData: {},//
-    isShowAnswer : "hidden",
+    isShowAnswer : false,
     isShowCounting :"hidden",
     timeCount:0,
     title:"",
+    macOrStop:"/common/images/mac.jpg",
     answer:"",
+    lang:"zh_CN",
+    asr:"",
+    seeOrHide:"看看答案",
+    startOrStop:"开始作答",
+    writing:false,
+    isShowAsr:false,
+    recording: false,
     questionIndex:Number(0),
     subjectIndex:Number(0),
     collectImage :"/common/images/collect.png",
@@ -40,6 +51,29 @@ Page({
     }
 
   },
+
+  voiceInput(){
+    var recording=this.data.recording
+    recording=!recording
+    console.log(recording)
+    if(recording){
+      manager.start({duration:60000, lang: this.data.lang})
+      this.setData({
+        recording:recording,
+        macOrStop:"/common/images/stop.jpg",
+        isShowAsr:false
+      })
+    }else{
+      manager.stop()
+      this.setData({
+        recording:recording,
+        macOrStop:"/common/images/mac.jpg",
+        isShowAsr:true
+      })
+    }
+
+    },
+
   // 点击选项
   getOption:function(e){
     console.log(e)
@@ -69,7 +103,7 @@ Page({
        }
       items.push({title:title,subjectId:si,questionId:qi})
     }
-   
+
     that.setData({
       value:e.currentTarget.dataset.value,
       hideFlag: false,
@@ -98,6 +132,14 @@ Page({
   onLoad: function(query){
     console.log(query)
     let that = this
+    manager.onStop = function(res) {
+      console.log("record file path", res.tempFilePath)
+      console.log("result", res.result)
+     that.setData({
+        asr:res.result
+      })
+    }
+
     that.setData({
       subjectIndex : Number(query.subjectId),
       questionIndex :Number(query.questionId),
@@ -107,6 +149,7 @@ Page({
     that.setData({
         title :app.QuestionDataArray[query.subjectId][query.questionId].title,
         answer : app.QuestionDataArray[query.subjectId][query.questionId].answer
+
       })   
     var options =[]
     for(var i=0;i<app.globalData.folders.length;i++){
@@ -125,7 +168,26 @@ Page({
   }, 
 
 
+
   setTimeCount:function(){
+    this.voiceInput()
+  let writing=this.data.writing
+    if(writing){
+      this.setData({
+        startOrStop:'开始作答',
+        writing:false,
+        time:180
+      })
+
+    }
+   else{
+     this.data.writing=true
+    this.timegoing()
+this.setData({
+  startOrStop:'停止作答',
+  writing:true
+})
+   }
     if(this.data.changePageStatus ==true){
       this.setData({
         changePageStatus : false,
@@ -134,33 +196,25 @@ Page({
       return null;
     }
       this.setData({
-        isShowCounting : "visible",
-      
-      })
-    
-    console.log("debug:isShowCounting",this.data.isShowCounting)
-    let time=this.data.time
-    time--;
-    if (time <= 0) {
-    time = 0;
-    }
-    this.setData({
-    time:time
-    })
 
-   
+        isShowCounting : "visible",
+      })
     setTimeout(this.setTimeCount,1000);      
-  
-  
-  
   },
 
-
   showAnswer:function(e){
-    this.setData({
-      isShowAnswer : "visible",
-    })
-    
+    this.data.isShowAnswer=!this.data.isShowAnswer
+    if(this.data.isShowAnswer){
+       this.setData({
+         seeOrHide:"隐藏答案",
+         isShowAnswer:true
+       })
+    }else{
+      this.setData({
+        seeOrHide:"看看答案",
+        isShowAnswer:false
+      })
+    }
   },
 
   collect:function(e){
@@ -168,7 +222,6 @@ Page({
     that.setData({
       hideFlag: false
     })
-    
     // 创建动画实例
     var animation = wx.createAnimation({
       duration: 400,//动画的持续时间
@@ -198,7 +251,7 @@ Page({
       clearTimeout(time1);
       time1 = null;
     }, 220)//先执行下滑动画，再隐藏模块
-    
+
   },
 
 
@@ -236,13 +289,13 @@ Page({
         title: '已经是第一个题了',
         icon: 'none',
         duration: 2000//持续的时间
-   
+
       })
     }else{
-      
+
       this.setData({
         questionIndex : Number(this.data.questionIndex)-1,
-        
+
       })
       let options=this.data.optionList
       for(var i=0;i<app.globalData.folders.length;i++){
@@ -251,7 +304,7 @@ Page({
           options[i].star=true
         }else{
           options[i].star=false
-        }      
+        }
       }
       this.setData({
         changePageStatus:true,
@@ -278,19 +331,18 @@ Page({
     }
     if(this.data.questionIndex >= app.QuestionDataArray[this.data.subjectIndex].length - 1 ){
 
-   
+
       wx.showToast({
         title: '已经是最后一个题了',
         icon: 'none',
         duration: 2000//持续的时间
-   
       })
     }else{
 
       this.setData({
         questionIndex : Number(this.data.questionIndex)+1,
- 
-      })    
+
+      })
          let options=this.data.optionList
       for(var i=0;i<app.globalData.folders.length;i++){
         let key=options[i].title+this.data.subjectIndex+this.data.questionIndex
@@ -298,24 +350,23 @@ Page({
           options[i].star=true
         }else{
           options[i].star=false
-        }      
+        }
       }
       this.setData({
         changePageStatus:true,
         isShowAnswer:"hidden",
         isShowCounting :"hidden",
         time:180,
-        optionList:options
+        optionList:options,
+        writing:false
       })
 
       this.setData({
         title : app.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].title,
         answer : app.QuestionDataArray[this.data.subjectIndex][this.data.questionIndex].answer
       })
-      console.log("debug:isShowCounting",this.data.isShowCounting)
-      console.log("debug:changePageStatus",this.data.changePageStatus)
     }
-    
+
   },
 
   showList:function(e){
@@ -807,9 +858,18 @@ Page({
   }
 
 })
+manager.onRecognize = function(res) {
+  console.log("current result", res.result)
+}
+
+manager.onStart = function(res) {
+  console.log("成功开始录音识别", res)
+}
+manager.onError = function(res) {
+  console.error("error msg", res.msg)
+}
 
 
 
 
 
-  
