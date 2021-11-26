@@ -5,7 +5,9 @@ Page({
 
   data: {
     profileImageUrl : "../../common/images/login.png",
-    nickName: "未登录"
+    nickName: "未登录",
+    minePage_openid:'',
+    recordingListData: []
 
   },
 
@@ -53,12 +55,29 @@ Page({
       wx.getUserProfile({
         desc:"授权登录",
         success(res){
+          //获取openid
+
+          wx.cloud.callFunction({
+            name: 'getOpenid',
+            success: res => {
+              console.log(' openid: ', res.result.openid)
+              console.log(' appid: ', res.result.appid)
+             that.minePage_openid = res.result.openid
+             appInstance.globalData.openid = that.minePage_openid
+             console.log("debug:   that.minePage_openid: ", that.minePage_openid )
+             console.log("debug:   appInstance.globalData.openid: ",  appInstance.globalData.openid )
+            }
+          })
+
           that.setData({
             profileImageUrl:res.userInfo.avatarUrl,
             nickName:res.userInfo.nickName,
           }),
+          //设置登录标志位
           appInstance.loginStatus = true
           console.log("debug:loginStatus ",appInstance.loginStatus)
+          
+          //弹出加载收藏数据的窗口
           wx.showLoading({
             title: '加载收藏数据中',
           })
@@ -73,6 +92,8 @@ Page({
               },
             })
           }, 2000)
+
+          //利用云函数getFolder 加载收藏数据
           wx.cloud.callFunction({
             name:'getFolder',
             success:function(res){
@@ -110,6 +131,26 @@ Page({
               console.log(res)
             }
           })
+
+
+          //读取录音记录数据
+         
+          var db  = wx.cloud.database()
+          db.collection("RecordingData").get().then(res =>{
+            var tmpArray = []
+            for(var i = 0; i<res.data.length;i++){
+              tmpArray.push(res.data[i])
+            }
+            that.recordingListData = tmpArray
+            appInstance.globalData.recordingListData = tmpArray
+            console.log("debug: recordingListData tmpArray",tmpArray)
+            console.log("debug: recordingListData ",that.recordingListData)
+            console.log("debug:  appInstance.globalData.recordingListData  ", appInstance.globalData.recordingListData )
+
+          })
+      
+          
+
         },
         fail(res){
           console.log("授权失败",res)
@@ -185,6 +226,22 @@ Page({
         success: (res) => {},
       })
     }, 600)
-}
+  },
+
+
+
+
+  getOpenid:function() {
+    let that = this;
+    wx.cloud.callFunction({
+      name: 'getOpenid',
+      success: res => {
+        console.log('openid: ', res.result.openid)
+        console.log('appid: ', res.result.appid)
+        return  res.result.openid
+
+      }
+    })
+  },
 
 })

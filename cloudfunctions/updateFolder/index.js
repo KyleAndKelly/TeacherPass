@@ -10,13 +10,12 @@ const db=cloud.database({
 exports.main = async (event, context) => {
   let { OPENID } =cloud.getWXContext()
   console.log(OPENID)
-     let{folders}=event
-     
-        return await db.collection('collectiondata').where({
-          openid:OPENID
-        }).update({
-          data:{
-            folders:folders
-          }
-        })
+  let{folders}=event
+  return await db.collection('collectiondata').where({
+    openid:OPENID
+  }).update({
+    data:{
+      folders:folders
+    }
+  })
 }

@@ -3,14 +3,7 @@
   <view class ="top">
 
 
-
-  <view class="question">
-  <text> 第{{(questionIndex|Int) +1 }}题 : {{title}}</text>
-  </view>
-
-
-
-  <view class = "topMenu">
+    <view class = "topMenu">  
      <view>
     <image class ="topMenuButton" src="{{collectImage}}" bindtap="collect" ></image>
      </view>
@@ -18,7 +11,25 @@
      <view>
     <image class ="topMenuButton" src="{{listImage}}" bindtap="showList" ></image>
      </view>
+     <view>
+    <image class ="topMenuButton" src="{{PrevQuesImage}}" bindtap="prevQuestion" ></image>
+     </view>
+     
+     <view>
+    <image class ="topMenuButton" src="{{NextQuesImage}}" bindtap="nextQuestion" ></image>
+     </view>
+
+
+
 </view>
+
+
+  <view class="question">
+  <text> 第{{(questionIndex|Int) +1 }}题 : {{title}}</text>
+  </view>
+
+
+
 
 
 <view class="wrap">
@@ -42,6 +53,8 @@
     </view>
   </view>
 </view>
+
+
 </view>
 
 
@@ -59,22 +72,54 @@
   <scroll-view  class="answer" scroll-y= "true"   wx:if = '{{isShowAnswer}}'>
   <text user-select = "true" >{{answer}}</text>
   </scroll-view>
-  <view class="timeCount" style = " text-align : center" wx:if="{{writing}}">
+
+  <!-- <view class="timeCount" style = "visibility:{{isShowCounting}} ;text-align : center">   
+
     <text>答题倒计时:{{time}} 秒</text>
+  </view> -->
+
+<!-- <view class = "timer">
+  <view class = "redPoint"> 红点 </view>
+  <view class = "count"> 5s </view>
+</view>
+ -->
+
+
+ <view wx:if="{{RecordText == '停止作答' }}" class="recode" >
+     <view class="record-wave-multiple">
+         <view></view>
+         <view></view>
+         <view></view>
+     </view>
+     <view class="record-bgm"></view>
+ </view>
+
+
+
+ <view wx:if="{{RecordText == '停止作答' }}" class = timerCount> 
+   {{timeCount}}" / 200"
   </view>
 
-   <view classs="bottomMenu">
-  <button class="btn" bindtap="setTimeCount">
-  {{startOrStop}}
+
+  <!-- <button  class="btn" bindtap="startRecordingTest" > 
+测试录音
+  </button> -->
+
+   <view class="bottomMenu">
+  <button  class="btn" bindtap="startRecording" > 
+ {{RecordText}}
+
   </button>
   <button class="btn" bindtap="showAnswer">
   {{seeOrHide}}
  </button>
-  <button class="btn" bindtap="prevQuestion" wx:if="{{!writing}}">
-  上一题
+
+  <button class="btn" bindtap="myAnswer" > 
+  作答记录
  </button>
- <button class="btn" bindtap="nextQuestion" wx:if="{{!writing}}">
-  下一题
+ <button class="btn" bindtap="square"  > 
+  练习广场
+
  </button>
 
 

@@ -9,9 +9,10 @@ const db=cloud.database({
 exports.main = async (event, context) => {
   
   let { OPENID } =cloud.getWXContext()
+
   console.log(OPENID)
-       b(OPENID)
-      return  await db.collection('collectiondata').where({
+  b(OPENID)
+  return  await db.collection('collectiondata').where({
       openid:OPENID
    }).get()
 }
